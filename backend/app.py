@@ -3,6 +3,8 @@ import tempfile
 from pathlib import Path
 from threading import BoundedSemaphore
 
+# Vercel's deployment bundle is read-only; Numba needs a writable cache.
+os.environ.setdefault("NUMBA_CACHE_DIR", os.path.join(tempfile.gettempdir(), "fretwise-numba"))
 import librosa
 import numpy as np
 import soundfile as sf
@@ -66,7 +68,7 @@ def analyze(path: str) -> dict:
                             "Tempo can be half or double the perceived beat; key and scale are global estimates, not a transcription of every note."]}
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health():
     return {"status": "ok"}
 

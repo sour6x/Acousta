@@ -23,7 +23,7 @@ def wav(seconds=3, silent=False, format="WAV"):
 
 
 def test_health_and_invalid_uploads():
-    assert client.get("/health").json() == {"status": "ok"}
+    assert client.get("/api/health").json() == {"status": "ok"}
     assert client.post("/api/analyze", files={"file": ("bad.txt", b"x")}).status_code == 415
     assert client.post("/api/analyze", files={"file": ("bad.wav", b"")}).status_code == 400
     assert client.post("/api/analyze", files={"file": ("bad.wav", b"not audio")}).status_code == 422
