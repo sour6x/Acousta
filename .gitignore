@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+.env*
+!.env.example
+.vercel
+.DS_Store
+*.tsbuildinfo
+npm-debug.log*
+.test-deps/
+.numba-cache/
+.pytest_cache/
+__pycache__/
+*.pyc
+.venv/
