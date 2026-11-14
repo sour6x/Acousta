@@ -13,8 +13,7 @@ from app import app
 client = TestClient(app)
 
 
-def wav(seconds=3, silent=False, format="WAV"):
-    sr = 22050
+def wav(seconds=3, silent=False, format="WAV", sr=22050):
     t = np.arange(sr * seconds) / sr
     audio = np.zeros_like(t) if silent else sum(np.sin(2 * np.pi * f * t) for f in (261.63, 329.63, 392.00)) / 4
     output = io.BytesIO()
@@ -39,3 +38,11 @@ def test_analyze_synthetic_chord(extension, format):
     assert result["chords"] and result["chords"][0]["chord"] == "C"
     assert result["chords"][0]["time"] == 0
     assert result["limitations"]
+
+
+@pytest.mark.parametrize("sample_rate", [44100, 48000])
+def test_resampling_mp3(sample_rate):
+    response = client.post("/api/analyze", files={"file": ("resampled.mp3", wav(format="MP3", sr=sample_rate), "audio/mpeg")})
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result["chords"] and result["chords"][0]["chord"] == "C"

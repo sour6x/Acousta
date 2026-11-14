@@ -30,7 +30,7 @@ def analyze(path: str) -> dict:
         raise ValueError("Unsupported audio format.")
     if not 0 < info.duration <= MAX_SECONDS or info.channels > 2 or info.samplerate > 192000:
         raise ValueError("Audio must be at most 10 minutes, mono or stereo, and 192 kHz or less.")
-    audio, sr = librosa.load(path, sr=22050, mono=True, res_type="kaiser_fast")
+    audio, sr = librosa.load(path, sr=22050, mono=True, res_type="soxr_hq")
     if len(audio) < sr or np.max(np.abs(audio)) < 1e-5:
         raise ValueError("Audio must contain at least one second of audible sound.")
     hop = 512
