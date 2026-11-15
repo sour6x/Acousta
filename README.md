@@ -2,7 +2,7 @@
 
 Fretwise is a guitar practice website for exploring a song's estimated chords, key and tempo. Choose an audio file on the home page, open it in the studio, and use the player and guitar tools to practice. The analysis is heuristic and its results should be checked by ear.
 
-**Live site:** [fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/)
+**Use Fretwise online:** [https://fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) — no local setup is needed.
 
 ## What it is built with
 
@@ -48,7 +48,9 @@ backend/Dockerfile       Optional standalone backend container
 vercel.json              Vercel service and routing configuration
 ```
 
-## Local setup
+## Run the project on your computer (optional)
+
+These steps are for developers who want to run their own local copy. To use the live site, visit [fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) instead.
 
 Requirements: Node.js 20.9+ and npm, Python 3.11, and a modern browser with support for the chosen audio format. MP3 decoding depends on the libsndfile build; the pinned `soundfile` package normally provides a compatible library on supported platforms.
 
@@ -69,7 +71,7 @@ Requirements: Node.js 20.9+ and npm, Python 3.11, and a modern browser with supp
    npm run dev
    ```
 
-3. Open http://localhost:3000, choose a file, and select **Analyze song**. The backend must be running. The demo and manual editor work without it. Loading an audio file alone does not send it to the service; clicking Analyze does. Analysis replaces the current chord list. Reanalysis also replaces manual edits.
+3. Once both local servers are running, open your local copy at `http://localhost:3000`, choose a file, and select **Analyze song**. This address works only on the computer running the development server; it is not the public website. The backend must be running for analysis. The demo and manual editor work without it. Loading an audio file alone does not send it to the service; clicking Analyze does. Analysis replaces the current chord list. Reanalysis also replaces manual edits.
 
 The standalone service accepts MP3, WAV and FLAC, up to 25 MiB and 10 minutes, mono or stereo, maximum 192 kHz. The Vercel configuration limits analysis uploads to 4 MiB in the browser to stay below Vercel's 4.5 MB request limit; larger files can still be played and edited locally. It checks the decoded audio, not just the filename. Invalid, silent, excessively long or unsupported files are rejected. Browser playback support varies, especially for FLAC.
 
