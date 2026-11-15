@@ -1,8 +1,8 @@
-# Fretwise
+# Acousta
 
-Fretwise is a guitar practice website for exploring a song's estimated chords, key and tempo. Choose an audio file on the home page, open it in the studio, and use the player and guitar tools to practice. The analysis is heuristic and its results should be checked by ear.
+Acousta is a guitar practice website for exploring a song's estimated chords, key and tempo. Choose an audio file on the home page, open it in the studio, and use the player and guitar tools to practice. The analysis is heuristic and its results should be checked by ear.
 
-**Use Fretwise online:** [https://fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) — no local setup is needed.
+**Use Acousta online:** [https://fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) — no local setup is needed. This is the site's current address.
 
 ## What it is built with
 

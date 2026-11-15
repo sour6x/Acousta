@@ -65,8 +65,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .site-header { position: relative; z-index: 2; background: #0f0e0de8; border-bottom: 1px solid #ffffff0f; backdrop-filter: blur(18px); }
 .nav-inner { min-height: 84px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .brand { font-size: 23px; font-weight: 800; letter-spacing: -.065em; display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; }
-.brand-symbol { width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center; background: #2c241e; border: 1px solid #63503e; border-radius: 10px; font-size: 22px; letter-spacing: -.12em; color: #fff5e9; }
-.brand-symbol span { color: var(--brown); }
+.brand-logo { width: 48px; height: 44px; object-fit: contain; }
 .brand-period { color: var(--brown); }
 .nav-links { display: flex; gap: 31px; align-items: center; color: #c8c1b9; font-size: 13px; }
 .nav-links > a:not(.nav-cta):hover { color: #fff; }

@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Icon } from "./Icon";
 
 export function Brand() {
   return (
-    <Link href="/" className="brand" aria-label="Fretwise home">
-      <span className="brand-symbol" aria-hidden="true">F<span>.</span></span>
-      <span>fretwise<span className="brand-period">.</span></span>
+    <Link href="/" className="brand" aria-label="Acousta home">
+      <Image src="/acousta-logo.png" width={48} height={44} className="brand-logo" alt="" priority />
+      <span>acousta<span className="brand-period">.</span></span>
     </Link>
   );
 }
@@ -36,7 +37,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
-        <span><strong>fretwise.</strong> Every song, a little closer.</span>
+        <span><strong>acousta.</strong> Every song, a little closer.</span>
         <span>Made for curious guitarists · Built with Next.js</span>
       </div>
     </footer>

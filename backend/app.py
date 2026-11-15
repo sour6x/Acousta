@@ -4,7 +4,7 @@ from pathlib import Path
 from threading import BoundedSemaphore
 
 # Vercel's deployment bundle is read-only; Numba needs a writable cache.
-os.environ.setdefault("NUMBA_CACHE_DIR", os.path.join(tempfile.gettempdir(), "fretwise-numba"))
+os.environ.setdefault("NUMBA_CACHE_DIR", os.path.join(tempfile.gettempdir(), "acousta-numba"))
 import librosa
 import numpy as np
 import soundfile as sf
@@ -15,7 +15,7 @@ from starlette.concurrency import run_in_threadpool
 MAX_BYTES = 25 * 1024 * 1024
 MAX_SECONDS = 600
 SLOTS = BoundedSemaphore(int(os.getenv("ANALYSIS_CONCURRENCY", "1")))
-app = FastAPI(title="Fretwise analysis")
+app = FastAPI(title="Acousta analysis")
 origins = [x.strip() for x in os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",") if x.strip()]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
@@ -80,7 +80,7 @@ async def analyze_upload(file: UploadFile = File(...)):
     if not SLOTS.acquire(blocking=False):
         raise HTTPException(503, "Analysis is busy. Please try again shortly.")
     try:
-        with tempfile.TemporaryDirectory(prefix="fretwise-") as directory:
+        with tempfile.TemporaryDirectory(prefix="acousta-") as directory:
             path = Path(directory) / "upload"
             size = 0
             with path.open("wb") as target:
