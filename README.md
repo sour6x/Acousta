@@ -2,7 +2,7 @@
 
 Acousta is a guitar practice website for exploring a song's estimated chords, key and tempo. Choose an audio file on the home page, open it in the studio, and use the player and guitar tools to practice. The analysis is heuristic and its results should be checked by ear.
 
-**Use Acousta online:** [https://fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) — no local setup is needed. This is the site's current address.
+**Use Acousta online:** [https://acousta-mu.vercel.app](https://acousta-mu.vercel.app/) — no local setup is needed.
 
 ## What it is built with
 
@@ -50,7 +50,7 @@ vercel.json              Vercel service and routing configuration
 
 ## Run the project on your computer (optional)
 
-These steps are for developers who want to run their own local copy. To use the live site, visit [fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/) instead.
+These steps are for developers who want to run their own local copy. To use the live site, visit [acousta-mu.vercel.app](https://acousta-mu.vercel.app/) instead.
 
 Requirements: Node.js 20.9+ and npm, Python 3.11, and a modern browser with support for the chosen audio format. MP3 decoding depends on the libsndfile build; the pinned `soundfile` package normally provides a compatible library on supported platforms.
 
