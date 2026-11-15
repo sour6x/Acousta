@@ -1,6 +1,52 @@
 # Fretwise
 
-A Next.js guitar practice studio with a separate FastAPI audio analysis service. Playback and the waveform use the browser; analysis is an explicit action that sends the selected audio to the configured service. The service processes it in a temporary directory and deletes that directory after the request. Session edits are held in memory and disappear on refresh or song change.
+Fretwise is a guitar practice website for exploring a song's estimated chords, key and tempo. Choose an audio file on the home page, open it in the studio, and use the player and guitar tools to practice. The analysis is heuristic and its results should be checked by ear.
+
+**Live site:** [fretwise-mu.vercel.app](https://fretwise-mu.vercel.app/)
+
+## What it is built with
+
+| Part | Technology | Purpose |
+| --- | --- | --- |
+| Frontend | Next.js, React and TypeScript | Pages, navigation, interactive studio and browser session state |
+| Styling | Tailwind CSS, PostCSS and custom CSS | Responsive layout and the black, silver and walnut visual design |
+| Audio player | WaveSurfer.js and browser audio APIs | Waveform, playback, seeking, speed and practice looping |
+| Music tools | TypeScript | Chord transposition, capo shapes, chord diagrams and fretboard scales |
+| Backend | Python, FastAPI, Uvicorn and python-multipart | Audio upload and analysis API |
+| Audio analysis | librosa and NumPy | Pitch-class features, chord templates, key profiles and tempo estimation |
+| Audio decoding and resampling | SoundFile / libsndfile and soxr | Read supported audio files and convert sample rates |
+| Hosting | Vercel Services | Deploy the Next.js app and FastAPI backend under one domain |
+| Testing and tooling | pytest, HTTPX, ESLint and TypeScript | Backend checks, frontend linting and type checking |
+| Alternative backend hosting | Docker | Run the FastAPI service separately in a container |
+
+The project does **not** currently use a trained AI model, Chordino, Essentia or an external analysis API. `package.json` and `backend/requirements.txt` list the dependencies and versions.
+
+## How it works
+
+The browser plays the chosen file locally. When the user selects **Analyze song**, it uploads the file to the Python service. The service decodes the audio, estimates its key and tempo, and compares pitch features with major and minor chord templates to produce timestamped chord changes. The studio follows those timestamps during playback and allows manual correction.
+
+The service uses temporary files and deletes them after the request. The selected file, analysis results and manual edits are held in the browser session and disappear when the page is refreshed or a different song is loaded.
+
+```text
+Browser: Next.js studio and WaveSurfer player
+   └── POST /api/analyze with audio
+         └── FastAPI: SoundFile + soxr + librosa + NumPy
+               └── estimated key, tempo and timestamped chords
+```
+
+## Project structure
+
+```text
+src/app/                 Home and studio pages
+src/components/          Upload, player, fretboard and chord UI
+src/context/             Browser audio session state
+src/lib/                 Music helpers and analysis API client
+backend/app.py           FastAPI routes and analysis
+backend/tests/           Backend API and audio tests
+backend/requirements.txt Python dependencies
+backend/Dockerfile       Optional standalone backend container
+vercel.json              Vercel service and routing configuration
+```
 
 ## Local setup
 
@@ -35,7 +81,7 @@ Playback controls include waveform seeking, speed and A/B looping. Selecting a c
 
 ## Configuration and deployment
 
-The proposed `vercel.json` defines a Next.js `app` and FastAPI `backend`. Configure the Vercel project's framework as **Services** and use this folder as the project root. The browser sends `/api/*` directly to the backend on the same domain, while other paths go to the frontend. This is a browser-to-service call: neither service calls the other, so there is no service binding. Leave `NEXT_PUBLIC_ANALYSIS_API_URL` unset for this deployment. Run `vercel dev` to exercise both services locally, then test `/api/health` and a real upload. This configuration has not been deployed or verified with Vercel; its build, cold-start time, memory usage and dependency bundle size still require validation. Audio analysis may exceed function time or memory limits on some plans. Vercel Services availability and project settings must be checked in your account.
+`vercel.json` defines a Next.js `app` and FastAPI `backend`. Configure the Vercel project's framework as **Services** and use this folder as the project root. The browser sends `/api/*` directly to the backend on the same domain, while other paths go to the frontend. This is a browser-to-service call: neither service calls the other, so there is no service binding. Leave `NEXT_PUBLIC_ANALYSIS_API_URL` unset for this deployment. Run `vercel dev` to exercise both services locally, then test `/api/health` and a real upload. The current site has been deployed on Vercel and a synthetic MP3 upload has been tested; that does not verify all files or workloads. Audio analysis may exceed function time or memory limits on some plans. Vercel Services availability and project settings must be checked in your account.
 
 For standalone development or separate hosting, set `NEXT_PUBLIC_ANALYSIS_API_URL` to the backend's public origin (no `/api` suffix) when building the frontend. This public value must not contain secrets. The included Dockerfile is an alternative for a long-running Python host. Configure `CORS_ORIGINS` as a comma-separated list of exact frontend origins, and `ANALYSIS_CONCURRENCY` to a small positive integer appropriate to the host. The image binds to the provider's `PORT`, defaulting to 8000. The concurrency limit is per process, not a global cap across Vercel instances. No deployment or credentials are included.
 
@@ -52,4 +98,4 @@ pip install -r requirements.txt -r tests/requirements.txt
 python -m pytest tests
 ```
 
-For an end-to-end smoke test, start both services, upload a short licensed WAV, press Analyze, confirm results and limitations, seek/play through changes, edit a chord, and check transposition and capo. Repeat with supported MP3 and FLAC files and test a rejected file. The automated synthetic audio test checks the response contract and a simple triad, not general recognition accuracy. No deployment or recognition accuracy benchmark is implied by these instructions.
+For an end-to-end smoke test, start both services, upload a short licensed WAV, press Analyze, confirm results and limitations, seek/play through changes, edit a chord, and check transposition and capo. Repeat with supported MP3 and FLAC files and test a rejected file. The automated synthetic audio tests check the response contract, simple triads, and resampling; they are not a benchmark of recognition accuracy.
