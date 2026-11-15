@@ -5,7 +5,7 @@ import { Icon } from "./Icon";
 export function Brand() {
   return (
     <Link href="/" className="brand" aria-label="Acousta home">
-      <Image src="/acousta-logo.png" width={48} height={44} className="brand-logo" alt="" priority />
+      <Image src="/acousta-logo.png" width={48} height={44} className="brand-logo" alt="" priority unoptimized />
       <span>acousta<span className="brand-period">.</span></span>
     </Link>
   );
