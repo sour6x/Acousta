@@ -6,7 +6,7 @@ export function Brand() {
   return (
     <Link href="/" className="brand" aria-label="Acousta home">
       <Image src="/acousta-logo.png" width={48} height={44} className="brand-logo" alt="" priority unoptimized />
-      <span>acousta<span className="brand-period">.</span></span>
+      <span>Acousta<span className="brand-period">.</span></span>
     </Link>
   );
 }
@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
-        <span><strong>acousta.</strong> Every song, a little closer.</span>
+        <span><strong>Acousta.</strong> Every song, a little closer.</span>
         <span>Made for curious guitarists · Built with Next.js</span>
       </div>
     </footer>
