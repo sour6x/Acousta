@@ -23,8 +23,6 @@ export function Navigation({ studio = false }: { studio?: boolean }) {
             </>
           ) : (
             <>
-              <Link href="#features">Features</Link>
-              <Link href="#how-it-works">How it works</Link>
               <Link href="/studio" className="nav-cta">Open studio <Icon name="arrow" size={16} /></Link>
             </>
           )}
